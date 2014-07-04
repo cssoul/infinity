@@ -11,7 +11,7 @@ At the same time, you can set the buffer parameters, to achieve clear DOM buffer
 ![demo](img/mask.jpg)
 
 
- Here is an example:
+Here is an example:
 
 
  ``` js
