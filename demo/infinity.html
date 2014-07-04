@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>TOP</title>
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-title" content="TOP" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="grey" />
+    <link rel="stylesheet" type="text/css" href="demo.css" />
+</head>
+
+<body>
+    <div id="screen-wrap">
+        <div id="views">
+            <div class="scroll-wrap">
+                <div class="scroll-inner">
+                    <div class="pull-down">
+                        <i class="pull-down-icon"></i>
+                    </div>
+
+                    <section class="timeline"></section>
+
+                    <div class="pull-up">
+                        <i class="pull-up-icon"></i><span class="pull-up-label">更多...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/template" id="tpl_timeline">
+        {{ $.each(it.list, function(index, item){ }}
+        <div class="feed-item" data-tid="{{= item.tid}}">
+            <div class="feed-hd">
+                {{ if(item.hotflag){ }}
+                <div class="tit">#Top上的热门文章# <i class="icon icon-hot"></i></div>
+                {{ } }}
+                <div class="author">
+                    <a href="mgj://userhome?uid={{= item.user.uid}}">
+                        <img class="avatar fl lazy" src="../img/placeholder.gif" data-original="{{= item.user.avatar}}" alt="" />
+                        <div class="info">
+                            <h5 class="uname">{{= item.user.uname}} <img class="tag" src="{{= item.user.tag.textSmallImg}}" /></h5>
+                            <p class="intro">{{= item.user.intro}}</p>
+                        </div>
+                    </a>
+                    {{if(item.user.isFollowed){}}
+                    <time class="time"><i class="icon icon-clock"></i><span>{{= MGJ.formatTime(item.pubTime)}}</span></time>
+                    {{ }else{ }}
+                    <span class="btn btn-follow J_Follow" data-uid="{{= item.user.uid}}">+关注</span>
+                    {{ } }}
+                </div>
+            </div>
+            <div class="feed-bd">
+                <figure class="pic">
+                    <a href="{{= item.jumplink}}">
+                        <img class="lazy" src="../img/placeholder.gif" data-original="{{= item.image.img}}" width="{{= MGJ.screenWidth}}" height="{{= (MGJ.screenWidth*item.image.h)/320}}" alt="" />
+                    </a>
+                    <p>
+                        <a href="{{= item.jumplink}}">{{= item.title}}</a>
+                    </p>
+                </figure>
+                <p class="interaction clearfix">
+                    <span class="eye"><i class="icon icon-eye"></i><em>{{= item.cViewed}}</em>次浏览</span>
+                    <span class="comment"><i class="icon icon-comment"></i><em>{{= item.cComment}}</em>条评论</span>
+                    <span class="praise"><i class="icon icon-thumb"></i><em>{{= item.cZaned}}</em>个赞</span>
+                </p>
+                <ul class="praise-list clearfix">
+                {{ $.each(item.zanUsers, function(index, praise){ }}
+                    {{ if(index<7){ }}
+                    <li data-daren="{{= praise.isDaren}}">
+                        <a href="mgj://userhome?uid={{= praise.uid}}">
+                            <img class="lazy" src="../img/placeholder.gif" data-original="{{= praise.avatar}}" alt="" />
+                        </a>
+                    </li>
+                    {{ } }}
+                {{ }); }}
+                    <li class="btn-praise J_Praise" data-tid="{{= item.tid}}">
+                        <i class="icon icon-thumb"></i>
+                        <span>{{= item.cZaned}}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        {{ }); }}
+    </script>
+    
+    <script src="../lib/zepto/zepto-1.1.3.js"></script>
+    <script src="../lib/doT/doT-1.0.1.js"></script>
+    <script src="../lib/iscroll/iscroll-4.2.5.js"></script>
+
+    <script src="../plugin/lazyload.js"></script>
+    <script src="../plugin/scroll.js"></script>
+    <script src="../infinity.min.js"></script>
+    <script src="demo.js"></script>
+</body>
+</html>
